@@ -6,13 +6,16 @@
     <title>Unity Web Player | Demo</title>
 
 <style>
-
+    body, html, #unity-container {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+    }
     #unity-canvas {
-      margin: auto;
-      padding: auto;
       width: 100%;
       height: 100%;
       background: #231F20;
+      object-fit: cover;
     }
 </style>
 
