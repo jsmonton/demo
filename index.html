@@ -4,9 +4,31 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | Demo</title>
+
+<style>
+   body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        background-color: black; 
+      }
+    #unity-canvas {
+      width: 100%;
+      height: 100%;
+      max-width: 1280px;  /* Maximum width (adjust as needed) */
+      max-height: 720px;  /* Maximum height (adjust as needed) */
+      background: #231F20;  /* Dark background for the canvas */
+      object-fit: contain;  /* Ensures the content scales without stretching */
+    }
+</style>
+
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=100% height=100% tabindex="-1" style="width: 100%; height: 100%; background: #231F20"></canvas>
+    <canvas id="unity-canvas" width=100% height=100% tabindex="-1" ></canvas>
     <script src="Build/Demo Baked Lighting.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
