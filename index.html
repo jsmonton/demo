@@ -58,6 +58,10 @@
         canvas.height = 720;
         canvas.style.width = newWidth + "px";
         canvas.style.height = newHeight + "px";
+
+        canvas.style.position = "absolute";
+        canvas.style.top = (iframeHeight - newHeight) / 2 + "px";
+        canvas.style.left = (iframeWidth - newWidth) / 2 + "px";
       }
 
       window.addEventListener('resize', resizeCanvas);
