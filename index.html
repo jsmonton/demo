@@ -5,13 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | Demo</title>
 
-<style>
-  
-</style>
+    <style>
+      body, html, #unity-container {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #unity-canvas {
+        background: #231F20;
+        object-fit: cover;
+        margin: 0 auto;
+        display: block;
+      }
+    </style>
 
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" tabindex="-1" ></canvas>
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
     <script src="Build/Demo Baked Lighting.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -22,10 +32,9 @@
         document.getElementsByTagName('head')[0].appendChild(meta);
 
         var canvas = document.querySelector("#unity-canvas");
+        canvas.style.position = "fixed";
         canvas.style.width = "100%";
         canvas.style.height = "100%";
-        canvas.style.position = "fixed";
-
         document.body.style.textAlign = "left";
       }
 
@@ -36,12 +45,14 @@
 
         var aspectRatio = 1280 / 720;
 
-        var newWidth = iframeWidth;
-        var newHeight = iframeWidth / aspectRatio;
+        // Set the height of the canvas to cover the iframe height
+        var newHeight = iframeHeight;
+        var newWidth = newHeight * aspectRatio;
 
-        if (newHeight > iframeHeight) {
-          newHeight = iframeHeight;
-          newWidth = iframeHeight * aspectRatio;
+        // If the width exceeds the iframe width, scale down based on width instead
+        if (newWidth > iframeWidth) {
+          newWidth = iframeWidth;
+          newHeight = iframeWidth / aspectRatio;
         }
 
         canvas.width = 1280;
@@ -49,13 +60,15 @@
         canvas.style.width = newWidth + "px";
         canvas.style.height = newHeight + "px";
 
+        // Center the canvas within the iframe
         canvas.style.position = "absolute";
         canvas.style.top = (iframeHeight - newHeight) / 2 + "px";
         canvas.style.left = (iframeWidth - newWidth) / 2 + "px";
       }
 
       window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
+      resizeCanvas();  // Initial resize
+
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
         dataUrl: "Build/Demo Baked Lighting.data",
@@ -65,8 +78,7 @@
         companyName: "CAMP",
         productName: "Demo",
         productVersion: "0.1.0",
-        matchWebGLToCanvasSize: true, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+        matchWebGLToCanvasSize: true, // Let Unity match WebGL canvas size to the DOM element size
       });
     </script>
   </body>
