@@ -6,26 +6,34 @@
     <title>Unity Web Player | Demo</title>
 
     <style>
-      body, html, #unity-container {
-        margin: 0;
-        height: 100%;
+      #unity-canvas-container {
+        position: relative;
+        width: 100%;
+        padding-top: 70%;
         overflow: hidden;
-      }
-      #unity-canvas {
         background: #231F20;
-        object-fit: cover;
-        margin: 0 auto;
-        display: block;
+      }
+
+      /* Unity canvas itself */
+      #unity-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
     </style>
-
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div id="unity-canvas-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+    </div>
+
     <script src="Build/Demo Baked Lighting.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
+        // Mobile device style: fill the whole browser client area with the game canvas
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
@@ -39,35 +47,19 @@
       }
 
       function resizeCanvas() {
-        var canvas = document.querySelector("#unity-canvas");
         var iframeWidth = window.innerWidth;
         var iframeHeight = window.innerHeight;
 
         var aspectRatio = 1280 / 720;
+        var newHeight = iframeWidth / aspectRatio;
 
-        // Set the height of the canvas to cover the iframe height
-        var newHeight = iframeHeight;
-        var newWidth = newHeight * aspectRatio;
-
-        // If the width exceeds the iframe width, scale down based on width instead
-        if (newWidth > iframeWidth) {
-          newWidth = iframeWidth;
-          newHeight = iframeWidth / aspectRatio;
-        }
-
-        canvas.width = 1280;
-        canvas.height = 720;
-        canvas.style.width = newWidth + "px";
-        canvas.style.height = newHeight + "px";
-
-        // Center the canvas within the iframe
-        canvas.style.position = "absolute";
-        canvas.style.top = (iframeHeight - newHeight) / 2 + "px";
-        canvas.style.left = (iframeWidth - newWidth) / 2 + "px";
+        // Set the height based on the iframe width to maintain aspect ratio
+        var container = document.querySelector("#unity-canvas-container");
+        container.style.height = newHeight + "px";
       }
 
       window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();  // Initial resize
+      resizeCanvas(); // Initial resize
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
@@ -78,7 +70,7 @@
         companyName: "CAMP",
         productName: "Demo",
         productVersion: "0.1.0",
-        matchWebGLToCanvasSize: true, // Let Unity match WebGL canvas size to the DOM element size
+        matchWebGLToCanvasSize: true,
       });
     </script>
   </body>
